@@ -3,40 +3,40 @@ Python 3.7+ (및 pip)
 
 Google Gemini API 키
 
+2.
 git clone [이_저장소의_URL]
 cd [프로젝트_폴더명]
 
-# 1. 가상환경 생성
+3. 가상환경 생성
 python -m venv venv
 
-# 2. 가상환경 활성화 (Windows)
-.\venv\Scripts\activate
+운영체제에 따라 선택
+4-1. 가상환경 활성화 (Windows)
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
-# 2. 가상환경 활성화 (Mac/Linux)
+4-2. 가상환경 활성화 (Mac/Linux)
 # source venv/bin/activate
 
-pip install -r requirements.txt
+5. pip install -r requirements.txt
 
-⚠️ 참고: 만약 requirements.txt 파일의 내용이 pip freeze > requirements.txt로 되어있다면, 이는 잘못된 것입니다.
-
-requirements.txt 파일의 내용을 지우세요.
-
-터미널에 pip install flask python-dotenv google-generativeai를 실행하세요.
-
-설치가 완료되면 pip freeze > requirements.txt를 실행하여 파일을 올바르게 덮어쓰세요.
-
+6-1.
+API 키 발급받은후, 
 API 키 설정 (가장 중요!) 프로젝트 루트 폴더(.gitignore 파일이 있는 곳)에 .env라는 이름의 파일을 새로 만드세요. 그리고 아래 내용을 복사하여 붙여넣고, " " 안에 당신의 Gemini API 키를 입력하세요.
 
-.env
+6-2
+generative Language API '사용'으로 설정
+7.
+GOOGLE_API_KEY="여기에_당신의_API_키를_입력하세요"
 
-GOOGLE_API_KEY="AIzaSy... (여기에_당신의_API_키를_입력하세요)"
-
-
+8.
 터미널에서 (가상환경이 활성화된 상태에서) 아래 명령어를 입력하여 Flask 서버를 시작합니다.
 flask run
 
+9.
 서버가 실행되면 터미널에 Running on http://127.0.0.1:5000 메시지가 뜹니다.
 
+10.
 웹 브라우저를 열고 http://127.0.0.1:5000 주소로 접속합니다.
 
+11.
 페이지에 보이는 '낙상 감지 시뮬레이션' 버튼을 클릭하면 Gemini가 생성한 경고 메시지가 화면에 나타납니다.
