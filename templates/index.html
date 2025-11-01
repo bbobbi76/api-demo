@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 홈캠 서비스 데모</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #1a73e8;
+        }
+        #gemini-screen {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            min-height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2em;
+            color: #d9534f;
+            font-weight: bold;
+        }
+        #action-button {
+            margin-top: 20px;
+            padding: 12px 24px;
+            font-size: 1em;
+            color: white;
+            background-color: #1a73e8;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #action-button:hover {
+            background-color: #1558b3;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 4px solid #1a73e8;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>AI 홈캠 긴급 상황 데모</h1>
+        <p>아래 버튼을 눌러 낙상 이벤트를 시뮬레이션하세요.</p>
+        
+        <div id="gemini-screen">
+            <span>대기 중...</span>
+        </div>
+
+        <button id="action-button">낙상 감지 시뮬레이션</button>
+    </div>
+
+    <script>
+        const actionButton = document.getElementById('action-button');
+        const geminiScreen = document.getElementById('gemini-screen');
+
+        actionButton.addEventListener('click', async () => {
+            geminiScreen.innerHTML = '<div class="loader"></div>';
+
+            try {
+                // --------------------------------------------------------
+                
+                
+                const response = await fetch('/generate_alert', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json' // 1. 이 요청은 JSON이라고 알려줌
+                    },
+                    body: JSON.stringify({}) // 2. 빈 데이터라도 JSON 형식으로 보냄
+                });
+                
+                
+                // --------------------------------------------------------
+
+                if (!response.ok) {
+                    throw new Error(`서버 오류: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.alert_message) {
+                    geminiScreen.innerHTML = `<span>🚨 ${data.alert_message.trim()} 🚨</span>`;
+                } else if (data.error) {
+                    geminiScreen.innerText = `오류: ${data.error}`;
+                }
+
+            } catch (error) {
+                console.error('요청 실패:', error);
+                geminiScreen.innerText = '요청에 실패했습니다. 콘솔을 확인하세요.';
+            }
+        });
+    </script>
+
+</body>
+</html>
